@@ -1,25 +1,14 @@
 export const theme = Object.freeze({
   colors: {
     white: "#fff",
-    skyblue: "#1f8ecd",
-    brightBlue: "#1ea1f7",
-    paleGray: "#eaeaea",
-    silver: "#cdd2d2",
+    cornflowerblue: "#6495ed",
     offWhite: "#f2f2f2",
-    lightestGray: "#ededed",
     lightGray: "#879292",
-    darkGray: "#5e5e5e",
-    emerald: "#2daf7f",
-    golden: "#e19205",
-    brightRed: "#ee5a52",
-    rustRed: "#c6443e",
-  },
-  spacing: {
-    xs: "1",
-    sm: "1.2rem",
-    md: "1.4rem",
-    lg: "1.6rem",
-    xl: "1.8rem",
+    darkGray: "#333",
+    gray: "#ccc",
+    red: "#ff0000",
+    lightRed: "#dd4d4d",
+    black: "#000",
   },
   fontSizes: {
     xs: "1.1rem",
@@ -30,6 +19,13 @@ export const theme = Object.freeze({
     xxl: "2.4rem",
   },
   maxWidth: "80rem",
+  breakpoints: {
+    xs: "360px",
+    sm: "480px",
+    md: "600px",
+    lg: "768px",
+    xl: "1024px",
+  },
 });
 
 export type TfontSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";

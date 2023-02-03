@@ -13,5 +13,5 @@ export const useThrottle = (value: string, limit: number) => {
     };
   }, [value, limit]);
 
-  return throttledValue;
+  return { throttledValue };
 };

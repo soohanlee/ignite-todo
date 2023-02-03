@@ -10,10 +10,17 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: sans-serif;
   }
+  
+  #root{
+    width: 100%;
+    height: 100%;
+  }
 
   html,body{
     font-size: 62.5%;
     line-height: 1.285;
+    width: 100%;
+    height: 100%;
   }
 
   main {

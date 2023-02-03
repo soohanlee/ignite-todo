@@ -1,20 +1,20 @@
 import { Todo } from "../type/todoType";
 
-export const setTodoList = (todoList: Todo[]) => {
+export const setTodoListToLocalStorage = (todoList: Todo[]) => {
   localStorage.setItem("todoList", JSON.stringify(todoList));
 };
 
-export const getTodoList = (): Todo[] => {
+export const getTodoListFromLocalStorage = (): Todo[] => {
   const todoList = localStorage.getItem("todoList");
 
   return todoList ? JSON.parse(todoList) : [];
 };
 
-export const setLastUserInput = (lastUserInput: string) => {
+export const setLastUserInputToLocalStorage = (lastUserInput: string) => {
   localStorage.setItem("lastUserInput", lastUserInput);
 };
 
-export const getLastUserInput = (): string => {
+export const getLastUserInputFromLocalStorage = (): string => {
   const lastUserInput = localStorage.getItem("lastUserInput");
 
   return lastUserInput ? lastUserInput : "";

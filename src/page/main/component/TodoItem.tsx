@@ -1,12 +1,13 @@
 import dayjs from "dayjs";
 import React from "react";
 import styled, { css } from "styled-components";
+import { dayjsFormat } from "../../../config/constantList";
 import { Todo } from "../../../type/todoType";
 
 interface Props {
   todo: Todo;
-  onChangeToggle: (id: number) => void;
-  onClickRemove: (id: number) => void;
+  onChangeToggle: (id: string) => void;
+  onClickRemove: (id: string) => void;
 }
 
 const TodoItem = ({ todo, onChangeToggle, onClickRemove }: Props) => {
@@ -16,16 +17,24 @@ const TodoItem = ({ todo, onChangeToggle, onClickRemove }: Props) => {
     onClickRemove(todo.id);
   };
 
+  const renderTodoDay = () => {
+    if (todo.completed) {
+      return `${dayjs(todo.completedAt).format(dayjsFormat)}`;
+    }
+
+    return `${dayjs(todo.createdAt).format(dayjsFormat)}`;
+  };
+
   return (
     <TodoItemLi
       checked={todo.completed}
       onClick={() => onChangeToggle(todo.id)}
     >
       <TodoTitle>
-        {todo.title} - {dayjs(todo.createdAt).format("YYYY.MM.DD HH:mm:ss")}
+        {todo.title} - {renderTodoDay()}
       </TodoTitle>
 
-      <TodoItemButton onClick={handleClickRemove}>Remove Todo</TodoItemButton>
+      <TodoItemButton onClick={handleClickRemove}>삭제</TodoItemButton>
     </TodoItemLi>
   );
 };
@@ -35,9 +44,9 @@ export default TodoItem;
 const TodoItemLi = styled.li<{ checked: boolean }>`
   display: flex;
   align-items: center;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
@@ -46,25 +55,44 @@ const TodoItemLi = styled.li<{ checked: boolean }>`
   ${(props) =>
     props.checked &&
     css`
-      background-color: ${({ theme }) => theme.colors.lightGray};
+      background-color: ${({ theme }) => theme.colors.cornflowerblue};
+      > p {
+      }
     `}
 
-  :hover {
-    transform: translateY(-5px);
+  :active {
+    transform: translateY(0);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    :hover {
+      transform: translateY(-5px);
+    }
   }
 `;
 
 const TodoTitle = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.lg};
+  width: 100%;
 `;
 
 const TodoItemButton = styled.button`
-  padding: 5px 10px;
-  background-color: red;
-  color: white;
-  border: none;
+  padding: 5px 1rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.black};
+  border: 1px solid ${({ theme }) => theme.colors.red};
   border-radius: 5px;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   cursor: pointer;
-  margin-left: auto;
+  word-break: keep-all;
+
+  :hover {
+    background-color: ${({ theme }) => theme.colors.red};
+    color: ${({ theme }) => theme.colors.white};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    max-width: fit-content;
+    width: 100%;
+  }
 `;

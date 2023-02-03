@@ -1,9 +1,9 @@
 export interface Todo {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
-  createdAt: Date;
-  completedAt?: Date;
+  createdAt: number; // timestamp
+  completedAt?: number; // timestamp
 }
 
 export enum FilterType {
