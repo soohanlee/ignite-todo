@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { inputDuplicate, inputPlaceholder } from "../../config/constantList";
 import { useTodoList } from "../../hook/useTodoList";
 import { FilterType } from "../../type/todoType";
@@ -9,6 +8,15 @@ import {
   getLastUserInputFromLocalStorage,
   setLastUserInputToLocalStorage,
 } from "../../util/localStorage";
+import {
+  Container,
+  Form,
+  Input,
+  Option,
+  Select,
+  SubmitButton,
+  UnorderedList,
+} from "../../style/TodoList";
 
 const Main = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,28 +46,42 @@ const Main = () => {
     handleRemoveTodo,
   } = useTodoList();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-    handleAddTodo(newTodo);
-    setNewTodo("");
-    inputRef.current?.focus();
-  };
+      handleAddTodo(newTodo);
+      setNewTodo("");
+      inputRef.current?.focus();
+    },
+    [handleAddTodo, newTodo, inputRef]
+  );
 
-  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter(event.target.value as FilterType);
-  };
+  const handleFilter = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilter(event.target.value as FilterType);
+    },
+    [setFilter]
+  );
+
+  const handleNewTodoChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setNewTodo(event.target.value);
+    },
+    [setNewTodo]
+  );
 
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <Input
+          maxLength={200}
           ref={inputRef}
           type="text"
           value={newTodo}
           error={duplicateError}
           placeholder={duplicateError ? inputDuplicate : inputPlaceholder}
-          onChange={(event) => setNewTodo(event.target.value)}
+          onChange={handleNewTodoChange}
         />
         <SubmitButton type="submit">추가</SubmitButton>
       </Form>
@@ -85,106 +107,3 @@ const Main = () => {
 };
 
 export default Main;
-
-const Container = styled.div`
-  padding: 3rem 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding: 3rem 1rem;
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-`;
-
-const Input = styled.input<{ error: boolean }>`
-  width: 100%;
-  padding: 1rem;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
-  border-radius: 5px;
-  margin-right: 1rem;
-  :focus {
-    outline: none;
-  }
-
-  ${(props) =>
-    props.error &&
-    css`
-      border: 1px solid red;
-      &::placeholder {
-        color: red;
-      }
-    `}
-`;
-
-const SubmitButton = styled.button`
-  padding: 1rem 2rem;
-  background-color: ${({ theme }) => theme.colors.cornflowerblue};
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  cursor: pointer;
-  width: 100%;
-  max-width: max-content;
-`;
-
-const Select = styled.select`
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
-  border-radius: 4px;
-  padding: 0.8rem 1.2rem;
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  color: ${({ theme }) => theme.colors.darkGray};
-  outline: none;
-  appearance: none;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  margin-bottom: 1rem;
-  cursor: pointer;
-
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.cornflowerblue};
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-      0 0 0 3px rgba(0, 123, 255, 0.1);
-  }
-`;
-
-const Option = styled.option`
-  background: ${({ theme }) => theme.colors.white};
-  padding: 0.8rem 1.2rem;
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  color: ${({ theme }) => theme.colors.darkGray};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
-`;
-
-const UnorderedList = styled.ul`
-  overflow: auto;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  height: 80%;
-  padding: 1rem 0;
-
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 1rem;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-`;

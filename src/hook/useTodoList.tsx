@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FilterType, Todo } from "../type/todoType";
 import {
   getTodoListFromLocalStorage,
@@ -24,24 +24,27 @@ export const useTodoList = () => {
     setTodoListToLocalStorage(todoList);
   }, [todoList]);
 
-  const handleAddTodo = (title: string) => {
-    if (title.length === 0) return;
+  const handleAddTodo = useCallback(
+    (title: string) => {
+      if (title.length === 0) return;
 
-    if (todoList.find((todo) => todo.title === title)) {
-      setDuplicateError(true);
+      if (todoList.find((todo) => todo.title === title)) {
+        setDuplicateError(true);
 
-      return;
-    }
-    setDuplicateError(false);
+        return;
+      }
+      setDuplicateError(false);
 
-    const newTodo: Todo = {
-      id: title,
-      title,
-      completed: false,
-      createdAt: Date.now(),
-    };
-    setTodoList([newTodo, ...todoList]);
-  };
+      const newTodo: Todo = {
+        id: title,
+        title,
+        completed: false,
+        createdAt: Date.now(),
+      };
+      setTodoList((prevTodoList) => [newTodo, ...prevTodoList]);
+    },
+    [todoList, setDuplicateError, setTodoList]
+  );
 
   useEffect(() => {
     const sortedList = [...todoList];
@@ -59,11 +62,11 @@ export const useTodoList = () => {
         break;
     }
     setTodoList(sortedList);
-  }, [filter, todoList]);
+  }, [filter]);
 
   const handleToggleTodo = (id: string) => {
-    setTodoList(
-      todoList.map((todo) => {
+    setTodoList((prevTodoList) =>
+      prevTodoList.map((todo) => {
         if (todo.id === id) {
           return {
             ...todo,
@@ -76,9 +79,11 @@ export const useTodoList = () => {
     );
   };
 
-  const handleRemoveTodo = (id: string) => {
-    setTodoList(todoList.filter((todo) => todo.id !== id));
-  };
+  const handleRemoveTodo = useCallback((id: string) => {
+    setTodoList((prevTodoList) =>
+      prevTodoList.filter((todo) => todo.id !== id)
+    );
+  }, []);
 
   const filteredTodoList = todoList.filter((todo) => {
     if (filter === "completed") return todo.completed;

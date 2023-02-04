@@ -1,21 +1,31 @@
 import { Todo } from "../type/todoType";
+import { decrypt, encrypt } from "./crypto";
+
+const secret = process.env.REACT_APP_SECRET_KEY || "ignite";
 
 export const setTodoListToLocalStorage = (todoList: Todo[]) => {
-  localStorage.setItem("todoList", JSON.stringify(todoList));
+  const stringifiedTodoList = JSON.stringify(todoList);
+  const encryptedData = encrypt(stringifiedTodoList, secret);
+  localStorage.setItem("todoList", encryptedData);
 };
 
 export const getTodoListFromLocalStorage = (): Todo[] => {
-  const todoList = localStorage.getItem("todoList");
+  const encryptedData = localStorage.getItem("todoList");
+  if (!encryptedData) return [];
 
-  return todoList ? JSON.parse(todoList) : [];
+  const decryptedData = decrypt(encryptedData, secret);
+  return JSON.parse(decryptedData);
 };
 
 export const setLastUserInputToLocalStorage = (lastUserInput: string) => {
-  localStorage.setItem("lastUserInput", lastUserInput);
+  const encryptedData = encrypt(lastUserInput, secret);
+  localStorage.setItem("lastUserInput", encryptedData);
 };
 
 export const getLastUserInputFromLocalStorage = (): string => {
-  const lastUserInput = localStorage.getItem("lastUserInput");
+  const encryptedData = localStorage.getItem("lastUserInput");
+  if (!encryptedData) return "";
 
-  return lastUserInput ? lastUserInput : "";
+  const decryptedData = decrypt(encryptedData, secret);
+  return decryptedData;
 };
