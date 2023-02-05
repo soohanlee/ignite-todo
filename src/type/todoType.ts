@@ -11,3 +11,8 @@ export enum FilterType {
   Ing = "ing",
   Completed = "completed",
 }
+
+export interface IFilter {
+  value: FilterType;
+  label: string;
+}

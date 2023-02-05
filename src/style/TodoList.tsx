@@ -27,11 +27,14 @@ export const Input = styled.input<{ error: boolean }>`
   width: 100%;
   padding: 1rem;
   font-size: ${({ theme }) => theme.fontSizes.lg};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
+  border: none;
   border-radius: 5px;
   margin-right: 1rem;
-  :focus {
+
+  &:focus,
+  &:hover {
     outline: none;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
   }
 
   ${(props) =>
@@ -54,7 +57,6 @@ export const SubmitButton = styled.button`
   cursor: pointer;
   width: 100%;
   max-width: max-content;
-
   transition: transform 0.1s ease-in-out;
 
   &:active {
@@ -68,30 +70,31 @@ export const SubmitButton = styled.button`
 
 export const Select = styled.select`
   background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
+  border: none;
   border-radius: 4px;
   padding: 0.8rem 1.2rem;
   font-size: ${({ theme }) => theme.fontSizes.md};
   color: ${({ theme }) => theme.colors.darkGray};
-  outline: none;
-  appearance: none;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   margin-bottom: 1rem;
   cursor: pointer;
+  outline: none;
 
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.cornflowerblue};
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-      0 0 0 3px rgba(0, 123, 255, 0.1);
+  &:focus,
+  &:hover {
+    outline: none;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus,
+  &:active {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 `;
 
 export const Option = styled.option`
-  background: ${({ theme }) => theme.colors.white};
-  padding: 0.8rem 1.2rem;
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  color: ${({ theme }) => theme.colors.darkGray};
-  border: 1px solid ${({ theme }) => theme.colors.gray};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
 `;
 
 export const UnorderedList = styled.ul`

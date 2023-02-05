@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import CheckOn from "../asset/image/check-on.png";
+import CheckOff from "../asset/image/check-off.png";
 
 export const TodoItemLi = styled.li<{ checked: boolean }>`
   display: flex;
@@ -11,24 +13,46 @@ export const TodoItemLi = styled.li<{ checked: boolean }>`
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
 
-  cursor: pointer;
   ${(props) =>
     props.checked &&
     css`
-      background-color: ${({ theme }) => theme.colors.cornflowerblue};
-      > p {
+      > div {
+        p:first-child {
+          text-decoration: line-through;
+          color: ${({ theme }) => theme.colors.gray};
+        }
       }
     `}
 
-  :active {
-    transform: translateY(0);
-  }
-
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    :active {
+      transform: translateY(0);
+    }
     :hover {
       transform: translateY(-5px);
     }
   }
+`;
+
+export const CheckBoxInput = styled.input`
+  display: none;
+
+  & + label {
+    width: 2rem;
+    height: 2rem;
+    background: url(${CheckOff}) no-repeat 0 0 / contain;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  &:checked + label {
+    background: url(${CheckOn}) no-repeat 0 0 / contain;
+  }
+`;
+
+export const Label = styled.label`
+  display: flex;
+  align-items: center;
 `;
 
 export const CheckBoxImg = styled.img`
@@ -59,19 +83,13 @@ export const Date = styled.p`
 `;
 
 export const TodoItemButton = styled.button`
-  padding: 5px 1rem;
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
-  border: 1px solid ${({ theme }) => theme.colors.red};
-  border-radius: 5px;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  padding: 0;
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.darkGray};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  font-weight: bold;
   cursor: pointer;
-  word-break: keep-all;
   max-width: fit-content;
   width: 100%;
-
-  :hover {
-    background-color: ${({ theme }) => theme.colors.red};
-    color: ${({ theme }) => theme.colors.white};
-  }
+  border: none;
 `;

@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { inputDuplicate, inputPlaceholder } from "../../config/constantList";
+import {
+  inputDuplicate,
+  inputPlaceholder,
+  options,
+} from "../../config/constantList";
 import { useTodoList } from "../../hook/useTodoList";
 import { FilterType } from "../../type/todoType";
 import TodoItem from "./component/TodoItem";
@@ -12,11 +16,10 @@ import {
   Container,
   Form,
   Input,
-  Option,
-  Select,
   SubmitButton,
   UnorderedList,
 } from "../../style/TodoList";
+import SelectComponent from "./component/Select";
 
 const Main = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,8 +61,8 @@ const Main = () => {
   );
 
   const handleFilter = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setFilter(event.target.value as FilterType);
+    (value: string) => {
+      setFilter(value as FilterType);
     },
     [setFilter]
   );
@@ -73,7 +76,7 @@ const Main = () => {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form data-cy="form" onSubmit={handleSubmit}>
         <Input
           maxLength={200}
           ref={inputRef}
@@ -82,17 +85,18 @@ const Main = () => {
           error={duplicateError}
           placeholder={duplicateError ? inputDuplicate : inputPlaceholder}
           onChange={handleNewTodoChange}
+          data-cy="input"
         />
-        <SubmitButton type="submit">추가</SubmitButton>
+        <SubmitButton type="submit" data-cy="submit-button">
+          추가
+        </SubmitButton>
       </Form>
-
-      <Select value={filter} onChange={handleFilter}>
-        <Option value={FilterType.All}>전체</Option>
-        <Option value={FilterType.Completed}>완료</Option>
-        <Option value={FilterType.Ing}>진행중</Option>
-      </Select>
-
-      <UnorderedList>
+      <SelectComponent
+        filter={filter}
+        options={options}
+        onChange={handleFilter}
+      />
+      <UnorderedList data-cy="unordered-list">
         {todoList.map((todo) => (
           <TodoItem
             key={todo.id}

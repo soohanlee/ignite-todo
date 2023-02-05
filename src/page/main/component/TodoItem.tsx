@@ -2,11 +2,10 @@ import dayjs from "dayjs";
 import React, { useCallback } from "react";
 import { dayjsFormat } from "../../../config/constantList";
 import { Todo } from "../../../type/todoType";
-import CheckOn from "../../../asset/image/check-on.png";
-import CheckOff from "../../../asset/image/check-off.png";
 import {
-  CheckBoxImg,
+  CheckBoxInput,
   Date,
+  Label,
   Title,
   TodoItemButton,
   TodoItemLi,
@@ -38,8 +37,8 @@ const TodoItem = ({ todo, onChangeToggle, onClickRemove }: Props) => {
   };
 
   const handleChangeToggle = useCallback(
-    (event: React.MouseEvent<HTMLLIElement>) => {
-      event.preventDefault();
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      event.stopPropagation();
 
       onChangeToggle(todo.id);
     },
@@ -47,18 +46,24 @@ const TodoItem = ({ todo, onChangeToggle, onClickRemove }: Props) => {
   );
 
   return (
-    <TodoItemLi checked={todo.completed} onClick={handleChangeToggle}>
-      {todo.completed ? (
-        <CheckBoxImg src={CheckOn} alt="완료" />
-      ) : (
-        <CheckBoxImg src={CheckOff} alt="진행중" />
-      )}
+    <TodoItemLi data-cy="todo-item" checked={todo.completed}>
+      <CheckBoxInput
+        onChange={handleChangeToggle}
+        checked={todo.completed}
+        type="checkbox"
+        id={todo.id}
+        data-cy="todo-item-checkbox"
+      />
+      <Label htmlFor={todo.id} />
+
       <TodoTitle>
-        <Title>{todo.title}</Title>
-        <Date>{renderTodoDay()}</Date>
+        <Title data-cy="title">{todo.title}</Title>
+        <Date data-cy="date">{renderTodoDay()}</Date>
       </TodoTitle>
 
-      <TodoItemButton onClick={handleClickRemove}>삭제</TodoItemButton>
+      <TodoItemButton data-cy="remove-button" onClick={handleClickRemove}>
+        ×
+      </TodoItemButton>
     </TodoItemLi>
   );
 };

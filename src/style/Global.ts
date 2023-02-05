@@ -21,6 +21,8 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.285;
     width: 100%;
     height: 100%;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
   }
 
   main {
