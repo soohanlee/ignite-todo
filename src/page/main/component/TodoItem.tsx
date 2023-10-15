@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useCallback } from "react";
+import styled from "styled-components";
 import { dayjsFormat } from "../../../config/constantList";
 import { Todo } from "../../../type/todoType";
 import {
@@ -61,11 +62,18 @@ const TodoItem = ({ todo, onChangeToggle, onClickRemove }: Props) => {
         <Date data-cy="date">{renderTodoDay()}</Date>
       </TodoTitle>
 
+      <CustomButton data-cy="remove-button" onClick={handleClickRemove}>
+        Edit
+      </CustomButton>
       <TodoItemButton data-cy="remove-button" onClick={handleClickRemove}>
-        ×
+        Delete
       </TodoItemButton>
     </TodoItemLi>
   );
 };
 
 export default TodoItem;
+
+const CustomButton = styled(TodoItemButton)`
+  margin-right: 1rem;
+`;

@@ -9,10 +9,6 @@ import { FilterType } from "../../type/todoType";
 import TodoItem from "./component/TodoItem";
 import { useThrottle } from "../../hook/useThrottle";
 import {
-  getLastUserInputFromLocalStorage,
-  setLastUserInputToLocalStorage,
-} from "../../util/localStorage";
-import {
   Container,
   Form,
   Input,
@@ -20,6 +16,10 @@ import {
   UnorderedList,
 } from "../../style/TodoList";
 import SelectComponent from "./component/Select";
+import {
+  getLastUserInputFromLocalStorage,
+  setLastUserInputToLocalStorage,
+} from "../../util/localStorage";
 
 const Main = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +88,7 @@ const Main = () => {
           data-cy="input"
         />
         <SubmitButton type="submit" data-cy="submit-button">
-          추가
+          Add Todo
         </SubmitButton>
       </Form>
       <SelectComponent

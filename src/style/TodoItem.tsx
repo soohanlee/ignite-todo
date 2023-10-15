@@ -8,7 +8,7 @@ export const TodoItemLi = styled.li<{ checked: boolean }>`
   justify-content: center;
   padding: 1rem;
   margin-bottom: 1rem;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.offWhite};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
@@ -84,12 +84,14 @@ export const Date = styled.p`
 
 export const TodoItemButton = styled.button`
   padding: 0;
-  background-color: transparent;
-  color: ${({ theme }) => theme.colors.darkGray};
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.dark};
   font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: bold;
   cursor: pointer;
   max-width: fit-content;
   width: 100%;
   border: none;
+  border-radius: 4px;
+  padding: 0.4rem 1.2rem;
 `;

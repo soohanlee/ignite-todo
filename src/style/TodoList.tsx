@@ -30,6 +30,7 @@ export const Input = styled.input<{ error: boolean }>`
   border: none;
   border-radius: 5px;
   margin-right: 1rem;
+  background: ${({ theme }) => theme.colors.yellow};
 
   &:focus,
   &:hover {
@@ -49,8 +50,9 @@ export const Input = styled.input<{ error: boolean }>`
 
 export const SubmitButton = styled.button`
   padding: 1rem 2rem;
-  background-color: ${({ theme }) => theme.colors.cornflowerblue};
-  color: white;
+  background-color: ${({ theme }) => theme.colors.offWhite};
+  color: ${({ theme }) => theme.colors.dark};
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   font-size: ${({ theme }) => theme.fontSizes.lg};
